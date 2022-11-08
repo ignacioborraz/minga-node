@@ -9,7 +9,7 @@ const schema = new mongoose.Schema({
     foto: {type: String, required: true},
     mail: {type: String, required: true},
     comidas: [{type: String, required: true}],
-    hobbies: [{type: String, required: true}]
+    hobbies: [{type: String, required: true}],
 })
 
 //para definir un modelo es necesario:
