@@ -1,67 +1,59 @@
-//primero requiero el modelo que necesito controlar
 const User = require('../models/User')
 
-//segundo defino el objeto controller (que va a controlar el modelo)
 const controller = {
-    //cada uno de los métodos son asíncronos, porque dependen del tiempo de espera de la peticion/respuesta
-    //la funcion asincrona SIMPRE va a depender de dos parámetros:
-        //REQ (requerimiento de la peticion)
-        //RES (respuesta de la petición)
-    //se le puede poner cualquier nombre a los parámetros de la asíncrona
-    //pero el primer parámetro SIEMPRE hace referencia al req (require/requerimiento)
-    //y el segundo SIEMPRE hace referencia al res (response/respuesta)
-    //método para crear un documento USUARIO
-    create: async(requerimiento,respuesta) => {
+    
+    create: async(requerimiento,respuesta) => { //método para crear un documento USUARIO
         //el objeto creado en el front (siguiendo la forma del modelo)
-        //y ahora guardao en el localStorage es el requerimiento de nuestro método
-        //requerimiento va a ser el objeto que tengo que mandar en la peticion
-        //en la propiedad body del objeto requerimiento (requerimiento.body)
-        //se encuentra guardado el objeto con los datos para
-        //construir/crear un nuevo documento        
+        //se pasa en en "body" de la petición
+        //ese objeto se encuentra en la propiedad "body" del objeto requerimiento
+        //y con este objeto construimos un nuevo documento (en este caso un nuevo usuario)
         try {
             let new_user = await User.create(requerimiento.body)
-            //defino una variable que va a esperar la creacion de un nuevo documento (en este caso un usuario)
-            //el objeto con los datos necesario para crear un usuario está en requerimiento.body
+            //defino una variable que va a esperar la creacion de un nuevo documento
             //una vez creado el documento, elaboro la respuesta que va a devolver la petición
-            //el status de exito de creacion es 201
+            //la respuesta tiene que tener el código de estado: 201 (éxito en la creación)
+            //y un json con datos relevantes (en este caso con el id del documento creado, el "éxito" en true y un mensaje)
             respuesta.status(201).json({
                 id: new_user._id,
                 success: true,
                 message: "el usuario se creó satisfactoriamente"
             })
         } catch(error) {
+            //en caso de que no haya éxito al crear un nuevo documento
+            //elaboro la respuesta del error
+            //codigo de estado: 400
+            //json con datos relevantes (en este caso el "éxito" en false y el mensaje del error)
             respuesta.status(400).json({
                 success: false,
                 message: error.message
             })
         }
     },
-    //método para leer/obtener todos los documentos USUARIO
-    read: async(req,res) => {
+/*     
+    read: async(req,res) => { //método para leer/obtener todos los USUARIO
         try {
-
         } catch {
-
-        }        
-    },
-    //método para actualizar un documento USUARIO
-    update: async(req,res) => {
-        try {
-
-        } catch {
-
         }
     },
-    //método para eliminar un documento USUARIO
-    destroy: async(req,res) => {
+
+    one: async(req,res) => { //método para leer/obtener todos un USUARIO
         try {
-
         } catch {
-
+        }
+    },
+    
+    update: async(req,res) => { //método para actualizar un USUARIO
+        try {
+        } catch {
+        }
+    },
+    
+    destroy: async(req,res) => { //método para eliminar un USUARIO
+        try {
+        } catch {
         }
     }
-
+ */
 }
 
-//tercero exporto el controlador
 module.exports = controller

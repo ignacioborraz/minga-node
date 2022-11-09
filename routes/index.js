@@ -7,3 +7,20 @@ router.get('/', function(req, res, next) {
 });
 
 module.exports = router;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//const router = require('express').Router()
+//const curso = require('./curso')
+//router.use('/curso',curso)
