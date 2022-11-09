@@ -4,13 +4,13 @@ const {
     create,read,one,update,destroy
 } = require('../controllers/curso')
 
-router.route('/')
-    .get(read)
-    .post(create)
+router
+    .get('/',read)
+    .post('/',create)
 
-router.route('/:id')
-    .get(one)
-    .put(update)
-    .delete(destroy)
+router
+    .get('/:id',one)
+    .put('/:id',update)
+    .delete('/:id',destroy)
 
 module.exports = router

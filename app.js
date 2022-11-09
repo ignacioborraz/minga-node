@@ -7,7 +7,9 @@ var logger = require('morgan');
 require('./config/database')
 
 var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
+//borro el requerimiento del enrrutador de usuarios
+//ya que unicamente vamos a trabajar con el enrrutador principal
+//y todos los modelos a ser "controlados" van a estar conectados a este enrrutador
 
 var app = express();
 
@@ -22,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+//borro la configuracion o uso del enrrutador de usuarios
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

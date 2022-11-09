@@ -29,31 +29,85 @@ const controller = {
             })
         }
     },
-/*     
+
     read: async(req,res) => { //método para leer/obtener todos los USUARIO
+        console.log('REQ.PARAMS')
+        console.log(req.params)
+        console.log('REQ.QUERY')
+        console.log(req.query)
+        console.log('REQ.BODY')
+        console.log(req.body)
         try {
-        } catch {
+            let todos = await User.find()
+            res.status(200).json({
+                response: todos,
+                success: true,
+                message: "se encontraron usuarios"
+            })
+        } catch(error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
         }
     },
 
-    one: async(req,res) => { //método para leer/obtener todos un USUARIO
-        try {
-        } catch {
-        }
-    },
-    
     update: async(req,res) => { //método para actualizar un USUARIO
+        let { id } = req.params //saco la propiedad id del objeto params
+        //para buscar un usuario con ese id
+        //y poder modificarlo
         try {
-        } catch {
+            let uno = await User.findOneAndUpdate({ _id: id }, req.body, { new: true })
+            //el metodo necesita 3 cosas:
+                //dato que tiene que buscar (en este caso tiene que coincidir el id) (viene por params)
+                //dato que quiero modificar (viene por body)
+                //objeto que habilita el reemplazo del documento
+                    //new: true habilita el reemplazo del usuario "viejo" por el usuario modificado
+                    //new: false crea un nuevo usuario con los nuevos datos Y NO RE-ESCRIBE AL ANTERIOR
+            if (uno) {
+                res.status(200).json({
+                    id: uno._id,
+                    success: true,
+                    message: "el usuario se modificó satisfactoriamente"
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "el usuario no se encontró"
+                })
+            }
+        } catch(error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
         }
     },
-    
+
     destroy: async(req,res) => { //método para eliminar un USUARIO
+        let { id } = req.params //saco la propiedad id del objeto params
         try {
-        } catch {
+            let uno = await User.findOneAndDelete({ _id: id})
+            if (uno) {
+                res.status(200).json({
+                    id: uno._id,
+                    success: true,
+                    message: "el usuario se eliminó satisfactoriamente"
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "el usuario no se encontró"
+                })
+            }
+        } catch(error) {
+            res.status(400).json({
+                success: false,
+                message: error.message
+            })
         }
     }
- */
+
 }
 
 module.exports = controller
