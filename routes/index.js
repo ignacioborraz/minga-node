@@ -1,13 +1,17 @@
-//requiero el método de enrrutamiento del modulo de express
-let router = require('express').Router()
+//el enrrutador principal va a requerir las rutas de cada modelo a controlar
+//es decir las rutas que controlan cada método del modelo User
+//y las rutas que controlan cada método del modelo Curso
 
-//requiero las rutas de cada modelo a controlar
-let user = require('./user') //ubicacion de las rutas de user
-let curso = require('./curso') //ubicacion de las rutas de curso
+//limpiar de app
 
-//le obligo al enrrutador principal que use "la palabrita /user" para poder controlar las rutas de user
-router.use('/user',user)
-//le obligo al enrrutador principal que use "la palabrita /curso" para poder controlar las rutas de curso
-router.use('/curso',curso)
+const router = require('express').Router()
+
+const usuarios = require('./usuarios')
+const comidas = require('./comidas')
+const ingredientes = require('./ingredientes')
+
+router.use('/usuarios',usuarios)
+router.use('/comidas',comidas)
+router.use('/ingredientes',ingredientes)
 
 module.exports = router
