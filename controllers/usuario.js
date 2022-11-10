@@ -44,8 +44,9 @@ const controller = {
         //en la petición agrego un signo de pregunta ? para poder enviar una query/consulta
         //a la base de datos
         try {
-            let todos = await Usuario.find(query).sort(order)
-            //query es un objeto con los "filtros" que necesito hacerle a la base de datos
+            let todos = await Usuario.find(query)
+                .sort(order)
+                .populate({ path: 'comidas', populate: 'ingredientes' })
             if (todos) {
                 res.status(200).json({
                     response: todos,
@@ -82,7 +83,7 @@ const controller = {
                     message: "no existe el usuario"
                 })
             }            
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -105,7 +106,7 @@ const controller = {
                     message: "no hay usuarios que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -128,7 +129,7 @@ const controller = {
                     message: "no hay usuarios que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message

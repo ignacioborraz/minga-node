@@ -32,7 +32,7 @@ let usuarios = [
         "nacimiento": new Date("03/01/2022"),
         "foto": "./img/sujeto4.png",
         "mail": "notengo@mail.com",
-        "comidas": ["636d5775c67698ccc47127de","636d5775c67698ccc47127dc","palomas"],
+        "comidas": ["636d5775c67698ccc47127de","636d5775c67698ccc47127dc"],
         "hobbies": ["hurgar","romper"]
     }
 ]

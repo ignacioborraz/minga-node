@@ -32,6 +32,6 @@ let comidas = [
 
 require('dotenv').config()
 require('../../config/database')
-const Comida = require('../Comida')
 
+const Comida = require('../Comida')
 Comida.insertMany(comidas,(error, docs)=>{})

@@ -20,7 +20,7 @@ const controller = {
     
     read: async(req,res) => {
         try {
-            let todos = await Comida.find()
+            let todos = await Comida.find().populate("ingredientes","nombre")
             if (todos) {
                 res.status(200).json({
                     response: todos,
@@ -33,7 +33,7 @@ const controller = {
                     message: "no hay comidas"
                 })
             }            
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -57,7 +57,7 @@ const controller = {
                     message: "no hay comidas"
                 })
             }            
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -80,7 +80,7 @@ const controller = {
                     message: "no hay comidas que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -103,7 +103,7 @@ const controller = {
                     message: "no hay comidas que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message

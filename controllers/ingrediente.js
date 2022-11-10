@@ -33,7 +33,7 @@ const controller = {
                     message: "no hay ingredientes"
                 })
             }            
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -57,7 +57,7 @@ const controller = {
                     message: "no hay ingredientes"
                 })
             }            
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -80,7 +80,7 @@ const controller = {
                     message: "no hay ingredientes que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
@@ -103,7 +103,7 @@ const controller = {
                     message: "no hay ingredientes que coincidan"
                 })
             }
-        } catch {
+        } catch(error) {
             res.status(400).json({
                 success: false,
                 message: error.message
