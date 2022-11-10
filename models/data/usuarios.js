@@ -1,11 +1,11 @@
-let users = [
+let usuarios = [
     {
         "nombre": "Ignacio",
         "edad": 32,
         "nacimiento": new Date("07/09/1990"),
         "foto": "./img/sujeto1.png",
         "mail": "ignacioborraz@hotmail.com",
-        "comidas": ["lasaña","hamburguesa"],
+        "comidas": ["636d5775c67698ccc47127da","636d5775c67698ccc47127df","636d5775c67698ccc47127db"],
         "hobbies": ["leer manga","bailar"]
     },
     {
@@ -14,41 +14,31 @@ let users = [
         "nacimiento": new Date("01/13/1999"),
         "foto": "./img/sujeto2.png",
         "mail": "feric.rodriguez@gmail.com",
-        "comidas": ["milanesa","ñoquis"],
+        "comidas": ["636d5775c67698ccc47127df","636d5775c67698ccc47127db"],
         "hobbies": ["mirar series","jugar al poker"]
     },
     {
         "nombre": "Ale",
-        "edad": 0,
+        "edad": 36,
         "nacimiento": new Date("12/25/1980"),
         "foto": "./img/sujeto3.png",
         "mail": "alejandro@zvi.com",
-        "comidas": ["lomito","atun","pure"],
+        "comidas": ["636d5775c67698ccc47127dd","636d5775c67698ccc47127de","636d5775c67698ccc47127df"],
         "hobbies": ["enseñar"]
     },
     {
         "nombre": "Mindy",
-        "edad": 0,
+        "edad": 1,
         "nacimiento": new Date("03/01/2022"),
         "foto": "./img/sujeto4.png",
         "mail": "notengo@mail.com",
-        "comidas": ["tomate","frutilla","palomas"],
+        "comidas": ["636d5775c67698ccc47127de","636d5775c67698ccc47127dc","palomas"],
         "hobbies": ["hurgar","romper"]
     }
 ]
 
 require('dotenv').config()
 require('../../config/database')
-const User = require('../User')
+const Usuario = require('../Usuario')
 
-users.forEach(elemento=> {
-    User.create({
-        nombre: elemento.nombre,
-        edad: elemento.edad,
-        nacimiento: elemento.nacimiento,
-        foto: elemento.foto,
-        mail: elemento.mail,
-        comidas: elemento.comidas,
-        hobbies: elemento.hobbies
-    })
-})
+Usuario.insertMany(usuarios,(error, docs)=>{})
