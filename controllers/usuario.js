@@ -2,7 +2,7 @@ const Usuario = require('../models/Usuario')
 
 const controller = {
 
-    create: async(req,res) => { //método para crear un USUARIO
+    create: async(req,res,next) => { //método para crear un USUARIO
         try {
             let nuevo = await Usuario.create(req.body)
             res.status(201).json({
@@ -11,14 +11,11 @@ const controller = {
                 message: "el usuario se creó satisfactoriamente"
             })
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     },
     
-    read: async(req,res) => { //método para leer/obtener todos los USUARIOS
+    read: async(req,res,next) => { //método para leer/obtener todos los USUARIOS
         let query = {}
         let order = {}
         //let { query } = req //sacando la propiedad query del objeto req
@@ -60,14 +57,11 @@ const controller = {
                 })
             }            
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }        
     },
 
-    one: async(req,res) => { //método para leer/obtener un USUARIO
+    one: async(req,res,next) => { //método para leer/obtener un USUARIO
         let { id } = req.params
         try {
             let todos = await Usuario.find({ _id: id })
@@ -84,14 +78,11 @@ const controller = {
                 })
             }            
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }        
     },
     
-    update: async(req,res) => { //método para actualizar un USUARIO
+    update: async(req,res,next) => { //método para actualizar un USUARIO
         let { id } = req.params
         try {
             let uno = await Usuario.findOneAndUpdate({ _id: id }, req.body,{ new: true })
@@ -107,14 +98,11 @@ const controller = {
                 })
             }
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     },
     
-    destroy: async(req,res) => { //método para eliminar un USUARIO
+    destroy: async(req,res,next) => { //método para eliminar un USUARIO
         let { id } = req.params
         try {
             let uno = await Usuario.findOneAndDelete({ _id: id })
@@ -130,10 +118,7 @@ const controller = {
                 })
             }
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     }
 

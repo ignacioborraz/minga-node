@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 const cors = require('cors') //requiero cors
+const errorHandler = require('./middlewares/errorHandler')
 require('./config/database')
 
 var indexRouter = require('./routes/index');
@@ -22,6 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', indexRouter); //aplico middleware en ruta
+app.use(errorHandler) //aplico middleware de manejo de errores
 
 app.use(function(req, res, next) {
   next(createError(404));

@@ -2,7 +2,7 @@ const Comida = require('../models/Comida')
 
 const controller = {
 
-    create: async(req,res) => {
+    create: async(req,res,next) => {
         try {
             let nuevo = await Comida.create(req.body)
             res.status(201).json({
@@ -11,14 +11,11 @@ const controller = {
                 message: "la comida se creó satisfactoriamente"
             })
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     },
     
-    read: async(req,res) => {
+    read: async(req,res,next) => {
         try {
             let todos = await Comida.find().populate("ingredientes","nombre")
             if (todos) {
@@ -34,14 +31,11 @@ const controller = {
                 })
             }            
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }        
     },
 
-    one: async(req,res) => {
+    one: async(req,res,next) => {
         let { id } = req.params
         try {
             let todos = await Comida.find({ _id: id })
@@ -58,14 +52,11 @@ const controller = {
                 })
             }            
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }        
     },
     
-    update: async(req,res) => {
+    update: async(req,res,next) => {
         let { id } = req.params
         try {
             let uno = await Comida.findOneAndUpdate({ _id: id }, req.body,{ new: true })
@@ -81,14 +72,11 @@ const controller = {
                 })
             }
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     },
     
-    destroy: async(req,res) => {
+    destroy: async(req,res,next) => {
         let { id } = req.params
         try {
             let uno = await Comida.findOneAndDelete({ _id: id })
@@ -104,10 +92,7 @@ const controller = {
                 })
             }
         } catch(error) {
-            res.status(400).json({
-                success: false,
-                message: error.message
-            })
+            next(error)
         }
     }
 
