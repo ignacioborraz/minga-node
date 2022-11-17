@@ -38,7 +38,7 @@ const controller = {
     one: async(req,res,next) => {
         let { id } = req.params
         try {
-            let todos = await Ingrediente.find({ _id: id })
+            let todos = await Ingrediente.findOne({ _id: id })
             if (todos) {
                 res.status(200).json({
                     response: todos,
