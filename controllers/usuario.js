@@ -19,7 +19,6 @@ const controller = {
         let query = {}
         let order = {}
         //let { query } = req //sacando la propiedad query del objeto req
-        console.log(req.query)
         if (req.query.comidas) {
             query = { comidas: req.query.comidas }
         }
@@ -64,10 +63,11 @@ const controller = {
     one: async(req,res,next) => { //método para leer/obtener un USUARIO
         let { id } = req.params
         try {
-            let todos = await Usuario.find({ _id: id })
-            if (todos) {
+            let uno = await Usuario.findOne({ _id: id })
+                .populate({ path: 'comidas', select: 'nombre -_id' })
+            if (uno) {
                 res.status(200).json({
-                    response: todos,
+                    response: uno,
                     success: true,
                     message: "se obtuvo un usuario"
                 })

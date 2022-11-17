@@ -1,4 +1,6 @@
 const router = require('express').Router()
+const schema = require('../config/schemas/usuario')
+const validator = require('../middlewares/validator')
 
 const {
     create,read,one,update,destroy
@@ -6,7 +8,7 @@ const {
 
 router.route('/')
     .get(read)
-    .post(create)
+    .post(validator(schema),create)
 
 router.route('/:id')
     .get(one)
