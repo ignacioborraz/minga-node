@@ -3,7 +3,7 @@ const schema = require('../config/schemas/usuario')
 const validator = require('../middlewares/validator')
 
 const {
-    create,read,one,update,destroy
+    create,read,one,update,destroy,onOff
 } = require('../controllers/usuario')
 
 router.route('/')
@@ -14,5 +14,8 @@ router.route('/:id')
     .get(one)
     .put(update)
     .delete(destroy)
+
+router.route('/auth/:id')
+    .post(onOff)
 
 module.exports = router

@@ -7,7 +7,8 @@ const schema = new mongoose.Schema({
     foto: {type: String, required: true},
     mail: {type: String, required: true},
     hobbies: [{type: String}],
-    comidas: [{type: mongoose.Types.ObjectId, ref: 'comidas'}]
+    comidas: [{type: mongoose.Types.ObjectId, ref: 'comidas'}],
+    disponible: {type: Boolean}
 })
 
 const Usuario = mongoose.model('usuarios',schema)

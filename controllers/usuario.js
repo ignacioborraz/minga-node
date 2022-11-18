@@ -3,6 +3,7 @@ const Usuario = require('../models/Usuario')
 const controller = {
 
     create: async(req,res,next) => { //método para crear un USUARIO
+        req.body.disponible = false //agrego una prop al body (por defecto se crea como "no disponible")
         try {
             let nuevo = await Usuario.create(req.body)
             res.status(201).json({
@@ -107,7 +108,30 @@ const controller = {
         } catch(error) {
             next(error)
         }
-    }
+    },
+
+    onOff: async(req,res,next) => { //método para cambiar la disponibilidad de un USUARIO
+        let { id } = req.params
+        try {
+            let uno = await Usuario.findOne({ _id: id })
+            if (uno) {
+                uno.disponible = !uno.disponible
+                await uno.save()
+                res.status(200).json({
+                    success: true,
+                    message: `usuario ${uno.disponible ? 'disponible' : 'no disponible'}`
+
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "no hay usuarios que coincidan"
+                })
+            }
+        } catch(error) {
+            next(error)
+        }
+    },
 
 }
 
