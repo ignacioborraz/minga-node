@@ -17,25 +17,12 @@ const controller = {
     
     read: async(req,res,next) => { //método para leer/obtener todos los USUARIOS
         let query = {}
-        let order = {}
-        //let { query } = req //sacando la propiedad query del objeto req
-        if (req.query.comidas) {
-            query = { comidas: req.query.comidas }
-        }
-        if (req.query.hobbies) {
-            query = {
-                ...query,
-                hobbies: req.query.hobbies
-            }
-        }
-        if (req.query.edad) {
-            query = {
-                ...query,
-                edad: req.query.edad
-            }
+        let order = { nombre: 'asc'}
+        if (req.query.nombre) {
+            query.nombre = new RegExp(req.query.nombre, 'i')
         }
         if (req.query.order) {
-            order = { nombre: req.query.order }
+            order.nombre = req.query.order
         }
         //en la petición agrego un signo de pregunta ? para poder enviar una query/consulta
         //a la base de datos
