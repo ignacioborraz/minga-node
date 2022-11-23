@@ -4,23 +4,22 @@ const passportJwt = require('passport-jwt')
 const {KEY_JWT} = process.env
 const Usuario = require('../models/Usuario')
 
-// 'Bearer ' + JWT
-
 passport.use(
-    new passportJwt.Strategy(
+    new passportJwt.Strategy( //definimos la estrategia de extraccion de jwt
         {
-            jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(),
-            secretOrKey: KEY_JWT
-        },
+            jwtFromRequest: passportJwt.ExtractJwt.fromAuthHeaderAsBearerToken(), // de tipo bearer
+            secretOrKey: KEY_JWT //con la clave secreta
+        }, //la estrategia devuelve la extraccion en un objeto: jwt_payload
         async (jwt_payload,done) => {
+            console.log(jwt_payload)
             try {
-                let user = await Usuario.findOne({_id:jwt_payload.id})
+                let user = await Usuario.findOne({ _id :jwt_payload.id }) //buscamos el usuario
                 if (user) {
-                    user = {
-                        id: user._id,
-                        name: user.nombre,
-                        email: user.mail,
-                        photo: user.foto
+                    user = { //este es el objeto user que se "inyecta" al req
+                        //aqui es donde protejo los datos del usuario
+                        nombre: user.nombre,
+                        mail: user.mail,
+                        foto: user.foto
                     }
                     return done(null, user)
                 } else {
