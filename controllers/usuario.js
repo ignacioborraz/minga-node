@@ -2,7 +2,7 @@ const Usuario = require('../models/Usuario')
 const bcryptjs = require('bcryptjs') //de esta libreria vamos a utilizar el método hashSync para encriptar la contraseña
 const crypto = require('crypto')//de este modulo vamos a requerir el método randomBytes
 const accountVerificationEmail = require('./accountVerificationEmail')
-const { userSignedUpResponse } = require('../config/responses')
+const { userSignedUpResponse,userNotFoundResponse } = require('../config/responses')
 
 const controlador = {
 
@@ -32,12 +32,20 @@ const controlador = {
     verificar: async(req,res,next) => {
         //método para que un usuario verifique su cuenta
         //requiere por params el código a verificar
+        
+        const { code } = req.params
+        console.log(code)
+        try {
         //busca un usuario que coincida el código
         //y cambia verificado de false a true
-            //si tiene éxito debe redirigir a alguna página (home, welcome, login)
-            //si no tiene éxito debe responder con el error
-        try {
-
+            let user = await Usuario.findOneAndUpdate({ codigo:code },{ verificado:true },{ new:true })
+            if (user) {
+                //si tiene éxito debe redirigir a alguna página (home, welcome, login)
+                //con el metodo redirect, redirijo automaticamente al usuario (en el front)
+                //hacia la pagina que quiero que se "mueva"
+                return res.redirect('https://www.google.com/')
+            } //si no tiene éxito debe responder con el error
+            return userNotFoundResponse(req,res)
         } catch(error) {
             next(error)
         }
