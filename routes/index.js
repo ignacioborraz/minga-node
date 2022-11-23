@@ -10,7 +10,7 @@ const usuarios = require('./usuarios')
 const comidas = require('./comidas')
 const ingredientes = require('./ingredientes')
 
-router.use('/usuarios',usuarios)
+router.use('/auth',usuarios)
 router.use('/comidas',comidas)
 router.use('/ingredientes',ingredientes)
 

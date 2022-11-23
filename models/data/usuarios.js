@@ -6,7 +6,8 @@ let usuarios = [
         "foto": "./img/sujeto1.png",
         "mail": "ignacioborraz@hotmail.com",
         "comidas": ["636d5775c67698ccc47127da","636d5775c67698ccc47127df","636d5775c67698ccc47127db"],
-        "hobbies": ["leer manga","bailar"]
+        "hobbies": ["leer manga","bailar"],
+        "disponible": false        
     },
     {
         "nombre": "Eric",
@@ -15,7 +16,8 @@ let usuarios = [
         "foto": "./img/sujeto2.png",
         "mail": "feric.rodriguez@gmail.com",
         "comidas": ["636d5775c67698ccc47127df","636d5775c67698ccc47127db"],
-        "hobbies": ["mirar series","jugar al poker"]
+        "hobbies": ["mirar series","jugar al poker"],
+        "disponible": false        
     },
     {
         "nombre": "Ale",
@@ -24,7 +26,8 @@ let usuarios = [
         "foto": "./img/sujeto3.png",
         "mail": "alejandro@zvi.com",
         "comidas": ["636d5775c67698ccc47127dd","636d5775c67698ccc47127de","636d5775c67698ccc47127df"],
-        "hobbies": ["enseñar"]
+        "hobbies": ["enseñar"],
+        "disponible": false        
     },
     {
         "nombre": "Mindy",
@@ -33,7 +36,26 @@ let usuarios = [
         "foto": "./img/sujeto4.png",
         "mail": "notengo@mail.com",
         "comidas": ["636d5775c67698ccc47127de","636d5775c67698ccc47127dc"],
-        "hobbies": ["hurgar","romper"]
+        "hobbies": ["hurgar","romper"],
+        "disponible": false        
+    },{
+        "nombre": "Gabriela",
+        "edad": 20,
+        "nacimiento": new Date("11/11/2002"),
+        "foto": "https://aishlatino.com/wp-content/uploads/2021/11/que-tipo-de-persona-te-gustaria-ser-730x411-SP.jpg",
+        "mail": "gabriela@mail.com",
+        "hobbies": ["codear","jugar"],
+        "comidas": [],
+        "disponible": false
+    },{    
+        "nombre": "Lucas",
+        "edad": 19,
+        "nacimiento": "2003-11-11T00:00:00.000Z",
+        "foto": "https://los40.com/los40/imagenes/2022/04/13/bigbang/1649847016_940843_1649847228_gigante_normal.jpg",
+        "mail": "lucas@mail.com",
+        "hobbies": ["codear","jugar"],
+        "comidas": ["636d5775c67698ccc47127d9"],
+        "disponible": false
     }
 ]
 

@@ -3,7 +3,6 @@ const errorHandler = (error, _req, res, _next) => {
 	res.status(400).json({
 		success: false,
 		message: error.message
-
 	})
 }
 

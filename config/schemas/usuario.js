@@ -41,9 +41,10 @@ const schema = joi.object({
             'string.empty': 'MAIL_REQUIRED',
             'string.email': 'INVALID_MAIL'
         }),
+    contraseña: joi.string().required(),
     comidas: joi.any(),
-    hobbies: joi.any()
-        
+    hobbies: joi.any(),
+    disponible: joi.any()
 })
 
 module.exports = schema

@@ -6,8 +6,12 @@ const schema = new mongoose.Schema({
     nacimiento: {type: Date, required: true},
     foto: {type: String, required: true},
     mail: {type: String, required: true},
+    contraseña: {type: String, required: true},
     hobbies: [{type: String}],
-    comidas: [{type: mongoose.Types.ObjectId, ref: 'comidas'}]
+    comidas: [{type: mongoose.Types.ObjectId, ref: 'comidas'}],
+    verificado: {type: Boolean},
+    online: {type: Boolean},
+    codigo: {type: String, required: true}
 })
 
 const Usuario = mongoose.model('usuarios',schema)
