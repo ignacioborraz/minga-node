@@ -2,7 +2,7 @@ const passport = require('passport')
 const passportJwt = require('passport-jwt')
 
 const {KEY_JWT} = process.env
-const User = require('../models/User')
+const Usuario = require('../models/Usuario')
 
 passport.use(
     new passportJwt.Strategy(
@@ -12,7 +12,7 @@ passport.use(
         },
         async (jwt_payload,done) => {
             try {
-                let user = await User.findOne({_id:jwt_payload.id})
+                let user = await Usuario.findOne({_id:jwt_payload.id})
                 if (user) {
                     user = {
                         id: user._id,

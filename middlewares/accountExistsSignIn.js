@@ -1,7 +1,7 @@
-const User = require("../models/User");
-const { invalidCredentialsResponse } = require("../responses/auth");
+const Usuario = require("../models/Usuario");
+const { invalidCredentialsResponse } = require("../config/responses")
 
-async function accountExists(req, res, next) {
+async function accountExistsSignIn(req, res, next) {
     const user = await Usuario.findOne({mail: req.body.mail})
     if (user) {
         req.user = user
@@ -10,4 +10,4 @@ async function accountExists(req, res, next) {
     invalidCredentialsResponse(req,res)
 }
 
-module.exports = { accountExists }
+module.exports = accountExistsSignIn
