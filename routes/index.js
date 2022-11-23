@@ -6,11 +6,11 @@
 
 const router = require('express').Router()
 
-const usuarios = require('./usuarios')
+//const usuarios = require('./usuarios')
 const comidas = require('./comidas')
 const ingredientes = require('./ingredientes')
 
-router.use('/usuarios',usuarios)
+//router.use('/usuarios',usuarios)
 router.use('/comidas',comidas)
 router.use('/ingredientes',ingredientes)
 
