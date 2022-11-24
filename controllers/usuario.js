@@ -18,7 +18,7 @@ const controlador = {
         let online = false
         let codigo = crypto.randomBytes(10).toString('hex') //defino el codigo de verificacion
         contraseña = bcryptjs.hashSync(contraseña, 10) //encripto o hasheo la contraseña
-        console.log(contraseña)
+        //console.log(contraseña)
         try {
             await Usuario.create({
                 nombre,edad,nacimiento,foto,mail,contraseña,hobbies,comidas,verificado,online,codigo
@@ -39,6 +39,7 @@ const controlador = {
                 { new: true } //especificacion que reemplace el documento de origen
             )
             if (user) {
+                //console.log(user)
                 return res.redirect('https://www.google.com/')
                 //deberia redigir a una pagina de bienvenida o home
                 //puede retornar un json y manejar la redireccion en el front
@@ -65,7 +66,7 @@ const controlador = {
                     process.env.KEY_JWT, //parámetro secreto, necesario para la conversion
                     { expiresIn: 60*60*24 } //tiempo de expiracion en segundos
                 )
-                console.log(token)
+                //console.log(token)
                 user = { //protejo mas datos sensibles
                     nombre: user.nombre,
                     mail: user.mail,
@@ -85,6 +86,7 @@ const controlador = {
 
     ingresarConToken: async (req, res, next) => {
         let { user } = req //desestructuro
+        console.log(user)
         try {
             return res.json({ //respuesta
                 response: { user },
@@ -106,7 +108,7 @@ const controlador = {
                 { new: true } //especificacion que reemplace el documento de origen
 
             )
-            return userSignedOutResponse(req, res) //respuesta
+            return userSignedOutResponse(req,res) //respuesta
         } catch (error) {
             next(error) //respuesta del catch
         }
