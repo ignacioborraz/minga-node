@@ -1,130 +1,148 @@
 const Usuario = require('../models/Usuario')
-const bcryptjs = require('bcryptjs') //de esta libreria vamos a utilizar el método hashSync para encriptar la contraseña
-const crypto = require('crypto')//de este modulo vamos a requerir el método randomBytes
-const accountVerificationEmail = require('./accountVerificationEmail')
-const { userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse, userSignedOutResponse } = require('../config/responses')
+const bcryptjs = require('bcryptjs')
+const crypto = require('crypto')
 const jwt = require('jsonwebtoken')
+const accountVerificationEmail = require('./accountVerificationEmail')
+const {
+    userSignedUpResponse, userNotFoundResponse, invalidCredentialsResponse, userSignedOutResponse
+} = require('../config/responses')
 
 const controlador = {
 
     registrar: async (req, res, next) => {
-        //método para que un usuario se registre
-        //luego de pasar por todas las validaciones:
-        //desestructura el cuerpo
-        let { nombre, edad, nacimiento, foto, mail, contraseña, hobbies, comidas } = req.body
-        //define las propiedades "extras" que necesite (online, codigo y verificado)
+        let {
+            nombre,edad,nacimiento,foto,mail,contraseña,hobbies,comidas
+        } = req.body //desestructuro
+         //defino propiedades "extras" (que requiere el modelo)
         let verificado = false
         let online = false
-        let codigo = crypto.randomBytes(10).toString('hex')
-        //encripto o hasheo la contraseña
-        contraseña = bcryptjs.hashSync(contraseña, 10)
+        let codigo = crypto.randomBytes(10).toString('hex') //defino el codigo de verificacion
+        contraseña = bcryptjs.hashSync(contraseña, 10) //encripto o hasheo la contraseña
         console.log(contraseña)
         try {
-            //crea el usuario
-            await Usuario.create({ nombre, edad, nacimiento, foto, mail, contraseña, hobbies, comidas, verificado, online, codigo })
-            //envía mail de verificación (con transportador)
-            await accountVerificationEmail(mail, codigo)
-            return userSignedUpResponse(req, res)
+            await Usuario.create({
+                nombre,edad,nacimiento,foto,mail,contraseña,hobbies,comidas,verificado,online,codigo
+            }) //crea el usuario
+            await accountVerificationEmail(mail, codigo) //envío mail de verificación (con transportador)
+            return userSignedUpResponse(req, res) //respuesta
         } catch (error) {
-            next(error)
+            next(error) //respuesta del catch
         }
     },
 
     verificar: async (req, res, next) => {
-        //método para que un usuario verifique su cuenta
-        //requiere por params el código a verificar
-
-        const { code } = req.params
-        console.log(code)
+        const { code } = req.params //desestructuro
         try {
-            //busca un usuario que coincida el código
-            //y cambia verificado de false a true
-            let user = await Usuario.findOneAndUpdate({ codigo: code }, { verificado: true }, { new: true })
+            let user = await Usuario.findOneAndUpdate( //busco y actualizo
+                { codigo: code }, //parametro de busqueda
+                { verificado: true }, //parametro a modificar
+                { new: true } //especificacion que reemplace el documento de origen
+            )
             if (user) {
-                //si tiene éxito debe redirigir a alguna página (home, welcome, login)
-                //con el metodo redirect, redirijo automaticamente al usuario (en el front)
-                //hacia la pagina que quiero que se "mueva"
                 return res.redirect('https://www.google.com/')
-            } //si no tiene éxito debe responder con el error
-            return userNotFoundResponse(req, res)
+                //deberia redigir a una pagina de bienvenida o home
+                //puede retornar un json y manejar la redireccion en el front
+            }
+            return userNotFoundResponse(req, res) //respuesta
         } catch (error) {
-            next(error)
+            next(error) //respuesta del catch
         }
     },
 
     ingresar: async (req, res, next) => {
-        const { contraseña } = req.body;
-        const {user} = req;
-
-        //método para que un usuario inicie sesión
-        //luego de pasar por todas las validaciones:
-            //desestructura la contraseña y el objeto user que vienen en el req
-            //compara las contraseñas
-                //si tiene éxito debe generar y retornar un token y debe redirigir a alguna página (home, welcome)
-                    //además debe cambiar online de false a true
-                //si no tiene éxito debe responder con el error
+        let { contraseña } = req.body //desestructuro
+        let { user } = req //desestructuro
         try {
-            const verificarContraseña = bcryptjs.compareSync(contraseña, user.contraseña)
-
+            const verificarContraseña = bcryptjs.compareSync(contraseña, user.contraseña) //comparo contraseña
             if(verificarContraseña) {
-                const userDb = await Usuario.findOneAndUpdate({_id: user.id}, {online: true}, {new: true})
-                const token = jwt.sign(
-                    {id: userDb._id, nombre: userDb.nombre, foto: userDb.foto, online: userDb.online},
-                    process.env.KEY_JWT,
-                    {expiresIn: 60 * 60 * 24}
+                await Usuario.findOneAndUpdate( //busco y actualizo
+                    { mail: user.mail }, //parametro de busqueda
+                    { online: true }, //parametro a modificar
+                    { new: true } //especificacion que reemplace el documento de origen
                 )
-
-                return res.status(200).json({
-                    response: {user, token},
+                let token = jwt.sign( //creo la firma de jwt
+                    { id: user.id }, //parametro a convertir en token
+                    process.env.KEY_JWT, //parámetro secreto, necesario para la conversion
+                    { expiresIn: 60*60*24 } //tiempo de expiracion en segundos
+                )
+                console.log(token)
+                user = { //protejo mas datos sensibles
+                    nombre: user.nombre,
+                    mail: user.mail,
+                    foto: user.foto
+                }
+                return res.status(200).json({ //respuesta
+                    response: { user,token },
                     success: true,
-                    message: 'Welcome ' + user.name
+                    message: 'Welcome ' + user.nombre
                 })
             }
-
-            return invalidCredentialsResponse(req, res)
-
+            return invalidCredentialsResponse(req, res) //respuesta
         } catch (error) {
-            next(error)
+            next(error) //respuesta del catch
         }
     },
 
     ingresarConToken: async (req, res, next) => {
-
-        //método para que un usuario que ya inicio sesión no la pierda al recargar
-        //solo para usuarios registrados en nuestra app (social loguin se maneja en front)
-        //luego de pasar por todas las validaciones:
-        //debe responder con los datos del usuario
-        let {user} = req
+        let { user } = req //desestructuro
         try {
-            return res.json({
-                response: {
-                    user: {
-                        nombre: user.name,
-                        foto: user.photo
-                    },
-                },
+            return res.json({ //respuesta
+                response: { user },
                 success: true,
-                message: 'Welcome ' + user.name
+                message: 'Welcome ' + user.nombre
             })
         } catch (error) {
-            next(error)
+            next(error) //respuesta del catch
         }
     },
 
     salir: async (req, res, next) => {
-        //método para que un usuario cierre sesión (cambia online de true a false)
-        //solo para usuarios registrados en nuestra app (social logout se maneja en front)
-        //si tiene éxito debe cambiar online de true a false
-        //si no tiene éxito debe responder con el error
-        const { id } = req.user
-        
+        const { mail } = req.user //desestructuro
         try {
-            await Usuario.findOneAndUpdate({_id: id}, {online: false})
+            //si tiene éxito debe cambiar online de true a false
+            await Usuario.findOneAndUpdate(
+                { mail }, //parametro de busqueda
+                { online: false }, //parametro a modificar
+                { new: true } //especificacion que reemplace el documento de origen
 
-            return userSignedOutResponse(req, res)
+            )
+            return userSignedOutResponse(req, res) //respuesta
         } catch (error) {
-            next(error)
+            next(error) //respuesta del catch
         }
+    },
+
+    read: async(req,res,next) => {
+        let query = {}
+        let order = { nombre: 'asc'}
+        if (req.query.nombre) {
+            query.nombre = new RegExp(req.query.nombre, 'i')
+        }
+        if (req.query.order) {
+            order.nombre = req.query.order
+        }
+        try {
+            let todos = await Usuario.find(query)
+                .sort(order)
+                .populate({
+                    path: 'comidas',
+                    populate: 'ingredientes'
+                })
+            if (todos) {
+                res.status(200).json({
+                    response: todos,
+                    success: true,
+                    message: "se obtuvieron usuarios"
+                })
+            } else {
+                res.status(404).json({
+                    success: false,
+                    message: "no hay usuarios"
+                })
+            }            
+        } catch(error) {
+            next(error)
+        }        
     }
 
 }
