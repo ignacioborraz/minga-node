@@ -1,11 +1,17 @@
-export let mangas_v1 = [
+import "dotenv/config.js"
+import "../../config/database.js"
+import Manga from "../Manga.js"
+import Chapter from "../Chapter.js"
+import Category from "../Category.js"
+import Author from "../Author.js"
+
+let mangas = [
     {
         title: 'Alice in Borderland',
         cover_photo: 'https://i.postimg.cc/PqQHYqrL/main-alice-in-borderland.jpg',
         description: 'Arisu Ryouhei will be leaving high school soon, but he tries to avoid thinking about his future. One night, when he is with his partner Karube and his friend Chouta, they see some fireworks. After a blinding explosion, they wake up in another world, called Borderland. Here people are forced to participate in violent games, where the participants must fight to survive. Will Arisu, Karube and Chouta be able to survive in this dangerous new world and find their way back to their true world?',
         category_id: 'shonen',
         author_id: 'alejandro',
-        company_id: 'Peace',
         chapters: [
             {
                 title: 'Welcome - part 1',
@@ -104,7 +110,6 @@ export let mangas_v1 = [
         description: 'Emma, Norman and Ray are three orphans who live happily in the idyllic Grace Field House orphanage, waiting for the moment when they will be assigned a foster family. Everything changes when they accidentally discover the horrifying reality of their existence, so they decide to rebel and fight to the last consequences in a dark and terrifying adventure. But his time is running out...',
         category_id: 'shonen',
         author_id: 'lucas',
-        company_id: 'Peace',
         chapters: [
             {
                 title: 'Grace Field Home',
@@ -350,7 +355,6 @@ export let mangas_v1 = [
         description: 'edit later',
         category_id: 'comics',
         author_id: 'eric',
-        company_id: 'Peace',
         chapters: [
             {
                 title: 'Chapter 1',
@@ -658,7 +662,6 @@ export let mangas_v1 = [
         description: 'edit later',
         category_id: 'shojo',
         author_id: 'eric',
-        company_id: 'Peace',
         chapters: [
             {
                 title: '001',
@@ -696,3 +699,22 @@ export let mangas_v1 = [
         ]
     }
 ]
+
+let insert_mangas = async()=> {
+    for (let manga of mangas) {
+        let author = await Author.findOne({ name:manga.author_id })
+        manga.author_id = await author._id
+        let category = await Category.findOne({ name:manga.category_id })
+        manga.category_id = await category._id
+        let one = await Manga.create(manga)
+        console.log('id of '+one.title+': '+one._id)
+        for (let chapter of manga.chapters) {
+            chapter.manga_id = one._id
+            chapter.cover_photo = chapter.pages[0]
+            await Chapter.create(chapter)
+        }
+        console.log(one.title+' & chapters created!')
+    }
+    console.log('done!')
+}
+insert_mangas()
