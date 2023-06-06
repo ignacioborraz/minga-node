@@ -5,18 +5,18 @@ export default async(req,res)=> {
         let all = await Category.find()
         if (all.length>0) {
             return res.status(200).json({
-                succes: true,
+                success: true,
                 response: all
             })
         } else {
             return res.status(404).json({
-                succes: false,
+                success: false,
                 message: 'not found'
             })
         }        
     } catch (error) {
         return res.status(500).json({
-            succes: false,
+            success: false,
             message: 'error'
         })
     }
