@@ -1,24 +1,19 @@
-import Author from "../../models/Author.js"
+import Author from '../../models/Author.js'
 
 export default async(req,res)=> {
-        try {
-            let data = req.body             //el cliente envia un objeto en la propiedad body del objeto req (requerimientos)
-            let one = Author.create(data)   //el objeto data deberia contener TODOS los datos necesarios para crear algo
-            if (one) {
-                return res.status(201).json({
-                    response: one,
-                    message: 'created'
-                })
-            } else {
-                return res.status(400).json({
-                    response: null,
-                    message: 'not created'
-                })
-            }
-        } catch (error) {
-            return res.status(500).json({
-                response: null,
-                message: 'not created'
-            })
-        }
+    try {
+        let one = await Author.create(req.body)
+        return res.status(201).json({
+            success: true,
+            message: 'created',
+            response: one
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            response: null,
+            harold: true,
+            message: 'error'
+        })
+    }
 }
