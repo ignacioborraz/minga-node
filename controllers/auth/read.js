@@ -1,6 +1,8 @@
-export default (req,res)=> {
-    return res.status(200).json({
-        success: true,
-        message: '/users'
-    })
+export default (req,res)=>{
+    
+        return res.status(200).json({
+            success:true,
+            message:'User'
+        })
+        
 }

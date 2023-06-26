@@ -1,6 +1,6 @@
 import Category from '../../models/Category.js'
 
-export default async(req,res)=> {
+export default async(req,res,next)=> {
     try {
         let all = await Category.find()
         if (all.length>0) {
@@ -15,10 +15,6 @@ export default async(req,res)=> {
             })
         }        
     } catch (error) {
-        console.log(error)
-        return res.status(500).json({
-            success: false,
-            message: 'error'
-        })
+        next(error)
     }
 }
