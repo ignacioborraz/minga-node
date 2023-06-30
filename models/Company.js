@@ -5,7 +5,7 @@ let schema = new mongoose.Schema({
     logo: { type:String,required:true },
     website: { type:String,required:true },
     description: { type:String,required:true },
-    active: { type:Boolean,required:true },
+    active: { type:Boolean,default:false },
     user_id: {
         type: mongoose.Types.ObjectId,
         ref: 'users',

@@ -13,7 +13,7 @@ const schema = new Schema({
         ref:'users',            //nombre de la colección con la que se tiene que referenciar (relacionar)
         required:true
     },
-    active: { type:Boolean,required:true }
+    active: { type:Boolean,default:false }
 },{
     timestamps: true
 })

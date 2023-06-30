@@ -1,15 +1,16 @@
-import Author from '../../models/Author.js'
+import Chapter from '../../models/Chapter.js'
 
 export default async(req,res,next)=> {
     try {
-        req.body.user_id = req.user._id
-        let one = await Author.create(req.body)
+        console.log(req.body);
+        let one = await Chapter.create(req.body)
+        console.log(one);
         return res.status(201).json({
             success: true,
             message: 'created',
             response: one
         })
     } catch (error) {
-        next(error)
+        return next(error)
     }
 }
