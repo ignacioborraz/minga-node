@@ -9,6 +9,7 @@
     "dev": "nodemon ./server.js",
     "users": "node ./models/data/users.js",
     "authors": "node ./models/data/authors.js",
+    "companies": "node ./models/data/companies.js",
     "categories": "node ./models/data/categories.js",
     "data": "node ./models/data/data.js"
   },
