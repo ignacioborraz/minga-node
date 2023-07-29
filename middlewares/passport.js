@@ -10,9 +10,8 @@ export default passport.use(
         },				
         async (jwt_payload,done) => {
             try {				
-                let user = await User.findOne({_id:jwt_payload._id})
+                let user = await User.findOne({_id:jwt_payload._id},'-password')
                 if (user) {
-                    delete user.password
                     return done(null, user)
                 } else {
                     return done(null, false)
