@@ -13,11 +13,11 @@ const PORT = process.env.PORT || 8080
 const ready = ()=>console.log('server running on port '+PORT)
 
 //middlewares
-server.use(express.json())                              //permite entradas y también trabajar con formato json
-server.use(express.urlencoded({ extended:true }))       //permite capturar consultas complejas
-server.use(cors())                                      //para permitir orígenes cruzados (front/back)
-server.use(morgan('dev'))                               //para registrar peticiones HTTP
-//server.use(time)
+server.use('/api/public',express.static('public'))
+server.use(express.json())
+server.use(express.urlencoded({ extended:true }))
+server.use(cors())
+server.use(morgan('dev'))
 
 //router
 server.use('/api',indexRouter)
