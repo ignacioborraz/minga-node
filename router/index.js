@@ -15,6 +15,6 @@ indexRouter.use('/categories',categoriesRouter)
 indexRouter.use('/authors',passport.authenticate('jwt',{ session:false }),authorsRouter)
 indexRouter.use('/companies',passport.authenticate('jwt',{ session:false }),companiesRouter)
 indexRouter.use('/mangas',passport.authenticate('jwt',{ session:false }),mangasRouter)
-indexRouter.use('/chapters',chapterRouter)
+indexRouter.use('/chapters',passport.authenticate('jwt',{ session:false }),chapterRouter)
 
 export default indexRouter

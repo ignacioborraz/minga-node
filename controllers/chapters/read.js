@@ -1,30 +1,29 @@
-import Manga from '../../models/Manga.js'
+import Chapter from '../../models/Chapter.js'
 
 export default async(req,res,next)=> {
     try {
         let queries = {}
         let pagination = {
             page:1,
-            limit:4
+            limit:6
         }
-        req.query.category && (queries.category_id = req.query.category.split(','))
-        req.query.title && (queries.title = new RegExp(req.query.title.trim(),'i'))
+        req.query.manga_id && (queries.manga_id = req.query.manga_id)
         req.query.page && (pagination.page = req.query.page)
         req.query.limit && (pagination.limit = req.query.limit)
         let skip = (pagination.page>0) ?
                    (pagination.page-1)*pagination.limit : 0
         let limit = pagination.limit>0 ?
                    pagination.limit : 0
-        let all = await Manga.find(queries,'title cover_photo category_id').sort({ title:1 }).skip(skip).limit(limit).populate('category_id','name')
+        let all = await Chapter.find(queries,'-pages -createdAt -updatedAt -__v').sort({ order:1 }).skip(skip).limit(limit)
         if (all.length>0) {
-            let total = await Manga.countDocuments(queries)
+            let total = await Chapter.countDocuments(queries)
             let pages = Math.ceil(total/pagination.limit)
             let current_page = Number(pagination.page)
             let prev_page = current_page===1 ? null : current_page-1
             let next_page = current_page===pages ? null : current_page+1
             return res.status(200).json({
                 success: true,
-                mangas: all,
+                chapters: all,
                 next: next_page,
                 prev: prev_page
             })
