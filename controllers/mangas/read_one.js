@@ -3,7 +3,7 @@ import Manga from '../../models/Manga.js'
 export default async(req,res,next)=> {
     try {
         let { id } = req.params
-        let one = await Manga.findById(id,'-createdAt -updatedAt -__v')
+        let one = await Manga.findById(id,'-createdAt -updatedAt -__v').populate('category_id','name -_id').populate('author_id','name -_id').populate('company_id','name -_id')
         if (one) {
             return res.status(200).json({
                 success: true,
