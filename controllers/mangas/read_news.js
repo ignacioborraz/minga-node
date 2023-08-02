@@ -15,15 +15,15 @@ export default async(req,res,next)=> {
                 }
             })
         } else if (count<8) {
-            let news = await Manga.find(query,'cover_photo createdAt').sort({ createdAt:1 }).limit(2)
-            let olds = await Manga.find(query,'cover_photo createdAt').sort({ createdAt:-1 }).limit(2)
+            let news = await Manga.find(query,'title cover_photo createdAt').sort({ createdAt:1 }).limit(2)
+            let olds = await Manga.find(query,'title cover_photo createdAt').sort({ createdAt:-1 }).limit(2)
             return res.status(200).json({
                 success: true,
                 response: { all: [...news,...olds] }
             })
         } else {
-            let news = await Manga.find(query,'cover_photo createdAt').sort({ createdAt:1 }).limit(4)
-            let olds = await Manga.find(query,'cover_photo createdAt').sort({ createdAt:-1 }).limit(4)
+            let news = await Manga.find(query,'title cover_photo createdAt').sort({ createdAt:1 }).limit(4)
+            let olds = await Manga.find(query,'title cover_photo createdAt').sort({ createdAt:-1 }).limit(4)
             return res.status(200).json({
                 success: true,
                 response: { news,olds }
