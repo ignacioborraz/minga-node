@@ -5,7 +5,7 @@ export default async(req,res,next)=> {
         let queries = {}
         let pagination = {
             page:1,
-            limit:4
+            limit:6
         }
         req.query.category && (queries.category_id = req.query.category.split(','))
         req.query.title && (queries.title = new RegExp(req.query.title.trim(),'i'))
