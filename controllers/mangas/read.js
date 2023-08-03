@@ -15,7 +15,7 @@ export default async(req,res,next)=> {
                    (pagination.page-1)*pagination.limit : 0
         let limit = pagination.limit>0 ?
                    pagination.limit : 0
-        let all = await Manga.find(queries,'title cover_photo category_id').sort({ title:1 }).skip(skip).limit(limit).populate('category_id','name')
+        let all = await Manga.find(queries,'title cover_photo category_id').sort({ title:1 }).skip(skip).limit(limit).populate('category_id','name color hover')
         if (all.length>0) {
             let total = await Manga.countDocuments(queries)
             let pages = Math.ceil(total/pagination.limit)
