@@ -9,7 +9,9 @@ export default async(req,res,next)=> {
                 return res.status(200).json({
                     success: true,
                     pages: one.pages,
-                    next: next_page
+                    next: next_page,
+                    manga_id: one.manga_id,
+                    order: one.order
                 })
             } else {
                 return res.status(200).json({
