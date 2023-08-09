@@ -4,12 +4,12 @@ export default async(req,res,next)=> {
     try {
         let one = await Chapter.findById(req.params.id,'manga_id order pages')
         if (one) {
-            let next_page = await Chapter.findOne({ manga_id:one.manga_id,order:one.order+1 },'_id')
-            if (next_page) {
+            let next_chapter = await Chapter.findOne({ manga_id:one.manga_id,order:one.order+1 },'_id')
+            if (next_chapter) {
                 return res.status(200).json({
                     success: true,
                     pages: one.pages,
-                    next: next_page,
+                    next_id: next_chapter._id,
                     manga_id: one.manga_id,
                     order: one.order
                 })
