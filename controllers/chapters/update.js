@@ -2,7 +2,10 @@ import Chapter from "../../models/Chapter.js";
 
 export default async (req, res, next) => {
   try {
-    let one = await Chapter.findByIdAndUpdate(req.params.id, req.body, {
+    let queries = {}
+    req.query.manga_id && (queries.manga_id=req.query.manga_id)
+    req.query.order && (queries.order=req.query.order)
+    let one = await Chapter.findOneAndUpdate(queries, req.body, {
       new: true,
     }).select("-createdAt -updatedAt -__v");
     if (one) {

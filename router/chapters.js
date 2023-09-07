@@ -31,7 +31,7 @@ chaptersRouter.post(
 chaptersRouter.get("/", read);
 chaptersRouter.get("/me", has_permition, read_me);
 chaptersRouter.get("/:id", has_permition, is_active, is_property_of, read_one);
-chaptersRouter.put("/:id", has_permition, is_active, is_property_of, update);
+chaptersRouter.put("/", has_permition, is_active, is_property_of, exists_order, update);
 chaptersRouter.delete("/:id", destroy);
 
 export default chaptersRouter;
