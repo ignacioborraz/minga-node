@@ -7,6 +7,7 @@ let schema = new Schema({
     photo: { type:String,required:true },
     role: { type:Number,default:0 },
     online: { type:Boolean,default:false },
+    google: { type:Boolean,default:false }
 },{
     timestamps: true
 })
