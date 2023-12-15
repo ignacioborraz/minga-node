@@ -14,15 +14,15 @@ const ready = () => console.log("server running on port " + PORT);
 
 //middlewares
 server.use("/api/public", express.static("public"));
-server.use(cookieParser(process.env.COOKIE));
 server.use(express.json());
 server.use(express.urlencoded({ extended: true }));
 server.use(
   cors({
-    origin: "https://minga-ignacioborraz.vercel.app/",
+    origin: true,
     credentials: true,
   })
 );
+server.use(cookieParser(process.env.COOKIE));
 server.use(morgan("dev"));
 
 //router
