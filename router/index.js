@@ -4,6 +4,7 @@ import authorsRouter from "./authors.js"
 import companiesRouter from "./companies.js"
 import mangasRouter from "./mangas.js"
 import chapterRouter from './chapters.js'
+import paymentsRouter from "./payments.js"
 
 import passport from "passport"
 
@@ -16,5 +17,6 @@ indexRouter.use('/authors',passport.authenticate('jwt',{ session:false }),author
 indexRouter.use('/companies',passport.authenticate('jwt',{ session:false }),companiesRouter)
 indexRouter.use('/mangas',passport.authenticate('jwt',{ session:false }),mangasRouter)
 indexRouter.use('/chapters',passport.authenticate('jwt',{ session:false }),chapterRouter)
+indexRouter.use('/payments',paymentsRouter)
 
 export default indexRouter
