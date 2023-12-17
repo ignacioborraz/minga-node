@@ -1,4 +1,4 @@
 export default (req, res, next) => {
-  console.log(req.signedCookies["token"]);
+  console.log({ signed: req.signedCookies["token"] });
   return next();
 };

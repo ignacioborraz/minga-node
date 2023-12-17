@@ -5,6 +5,8 @@ export default (req, res, next) => {
       .cookie("token", req.token, {
         maxAge: 60 * 60 * 24 * 7 * 1000,
         signed: true,
+        sameSite: "none",
+        secure: true,
       })
       .json({
         response: { token: req.token, user: req.user },
